@@ -44,6 +44,7 @@ form.on("submit", function (e) {
 
   pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
   passwordLength = item.val();
+  console.log(passwordLength, typeof passwordLength);
 
   try {
     if (pathChecked == "special-characters" && passwordLength.length !== 0) {
@@ -61,7 +62,7 @@ form.on("submit", function (e) {
       passwordMsg = "Make a request by passing a password length";
       passwordArray = Array.from(passwordMsg);
     }
-  } catch {
+  } catch (err) {
     passwordMsg = "Make a request by passing a password length";
     passwordArray = Array.from(passwordMsg);
   }
