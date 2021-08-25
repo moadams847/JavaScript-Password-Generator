@@ -1,0 +1,19 @@
+/* .copy{
+        float: right;
+      } */
+/* body {
+        background-color: #c9d6df;
+      } */
+
+#inputWidth {
+  width: 25%;
+}
+
+@media screen and (max-width: 989px) {
+  #inputWidth {
+    min-width: 100%;
+  }
+  .btn {
+    min-width: 100%;
+  }
+}
