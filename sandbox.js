@@ -32,6 +32,27 @@ const generatePassword = (sampleArrayType) => {
   return passwordArray.push(item);
 };
 
+// generate template--------------------
+const generateTemplate = (password) => {
+  const html = `<li class="list-group-item">
+
+  <span class="textToCopy">${password}</span
+  >
+
+  <span
+    class="tt float-end"
+    data-bs-placement="left"
+    title="Copy"
+  >
+    <span class="copy"
+      ><i class="fas fa-clipboard fa-1x"></i
+    ></span>
+  </span>
+</li>`;
+
+  return itemList.prepend(html);
+};
+
 form.on("submit", function (e) {
   e.preventDefault();
 
@@ -42,8 +63,8 @@ form.on("submit", function (e) {
   // how to grab the value of a checked radio button
   // console.log($('input[name="inlineRadioOptions"]:checked').val());
 
-  pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
-  passwordLength = item.val();
+  const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
+  const passwordLength = item.val();
   console.log(passwordLength, typeof passwordLength);
 
   try {
@@ -59,61 +80,18 @@ form.on("submit", function (e) {
         generatePassword(sampleWithoutXitcsList);
       }
     } else {
-      passwordMsg = "Make a request by passing a password length";
-      passwordArray = Array.from(passwordMsg);
+      const passwordMsg = "Make a request by passing a password length";
+      const passwordArray = Array.from(passwordMsg);
     }
   } catch (err) {
-    passwordMsg = "Make a request by passing a password length";
-    passwordArray = Array.from(passwordMsg);
+    const passwordMsg = "Make a request by passing a password length";
+    const passwordArray = Array.from(passwordMsg);
   }
-  passwordString = passwordArray.join("");
+  const passwordString = passwordArray.join("");
   console.log(passwordString);
-  // --------------------------------
-  //   create new li element
-  var li = $("<li></li>");
 
-  // create new span element
-  var spanOne = $("<span></span>");
-  spanOne.addClass("textToCopy");
-
-  //   add password to span
-  spanOne.text(passwordString);
-
-  // password set to empty------------------------------------
-  // not to append previous ones to it----------------------
+  generateTemplate(passwordString);
   passwordArray = [];
-
-  //   append span to li
-  li.append(spanOne);
-
-  //   create li tag to hold font awesome
-  var iTag = $("<i></i>");
-  iTag.addClass("fas fa-clipboard fa-1x");
-
-  //   span three for font awesome span
-  var spanThree = $("<span></span>");
-  spanThree.addClass("copy");
-  spanThree.append(iTag);
-
-  // https://stackoverflow.com/a/24655395
-  // enable tooltip on dynamic html elements (dynamic html elements)----
-  $("body").tooltip({
-    selector: ".tt",
-  });
-
-  //    span two for tool tool tip
-  var spanTwo = $(
-    "<span class='tt float-end' data-bs-placement = 'left' title ='Copy'></span>"
-  );
-  spanTwo.append(spanThree);
-
-  //   append tool tip and font awesome to li
-  li.append(spanTwo);
-
-  //   add class
-  li.addClass("list-group-item float-end");
-
-  itemList.prepend(li);
 });
 
 // flter passwords ----------------------------------------
