@@ -1,10 +1,9 @@
-var form = $("#addForm");
-var item = $(".item");
-var itemList = $("#items");
-var lis = $(".list-group-item");
+const form = $("#addForm");
+const item = $(".item");
+const itemList = $("#items");
+const lis = $(".list-group-item");
 
 // logic------------------------------------------------
-
 // strings from which password will be generated
 const sampleWithXitcs =
   "abcdefghjk!$%&+?mnpqrstuvwxyz23456789!$%&+?ABCDEFGHJKMNPQRSTUVWXYZ!$%&+?";
@@ -24,7 +23,7 @@ const randomNumberGenerator = (length) => {
 
 // password generator logic-----
 let passwordArray = [];
-let passwordString = "";
+// let passwordString = "";
 const generatePassword = (sampleArrayType) => {
   let lengthOfArray = sampleArrayType.length;
   let randomNumber = randomNumberGenerator(lengthOfArray);
@@ -53,6 +52,7 @@ const generateTemplate = (password) => {
   return itemList.prepend(html);
 };
 
+// event listener on submit------------------------
 form.on("submit", function (e) {
   e.preventDefault();
 
@@ -61,35 +61,42 @@ form.on("submit", function (e) {
 
   //   https://stackoverflow.com/a/23053203
   // how to grab the value of a checked radio button
-  // console.log($('input[name="inlineRadioOptions"]:checked').val());
+  // const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
 
   const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
   const passwordLength = item.val();
-  console.log(passwordLength, typeof passwordLength);
+  // console.log(passwordLength, typeof passwordLength);
 
   try {
-    if (pathChecked == "special-characters" && passwordLength.length !== 0) {
+    if (
+      pathChecked == "special-characters" &&
+      passwordLength.length !== 0 &&
+      passwordLength > 0
+    ) {
       for (let i = 0; i < passwordLength; i++) {
         generatePassword(sampleWithXitcsList);
       }
     } else if (
       pathChecked == "no-special-characters" &&
-      passwordLength.length !== 0
+      passwordLength.length !== 0 &&
+      passwordLength > 0
     ) {
       for (let i = 0; i < passwordLength; i++) {
         generatePassword(sampleWithoutXitcsList);
       }
     } else {
-      const passwordMsg = "Make a request by passing a password length";
-      const passwordArray = Array.from(passwordMsg);
+      passwordMsg = "Make a request by passing the right password length";
+      passwordArray = Array.from(passwordMsg);
     }
   } catch (err) {
-    const passwordMsg = "Make a request by passing a password length";
-    const passwordArray = Array.from(passwordMsg);
+    passwordMsg = "Make a request by passing the right password length";
+    passwordArray = Array.from(passwordMsg);
   }
   const passwordString = passwordArray.join("");
-  console.log(passwordString);
+  // console.log(passwordString);
 
+  // https://stackoverflow.com/a/24655395
+  // enable tooltip on dynamic html elements (dynamic html elements)----
   $("body").tooltip({
     selector: ".tt",
   });
@@ -101,7 +108,7 @@ form.on("submit", function (e) {
 // flter passwords ----------------------------------------
 $("#filter").on("keyup", function (e) {
   var value = $(this).val().toLowerCase();
-  $("#items li").filter(function (e) {
+  $("#items li").filter(function (item) {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
   });
 });
