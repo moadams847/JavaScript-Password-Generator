@@ -1,9 +1,10 @@
+// ========================================================
 const form = $("#addForm");
 const item = $(".item");
 const itemList = $("#items");
 const lis = $(".list-group-item");
 
-// logic------------------------------------------------
+// logic =================================================
 // strings from which password will be generated
 const sampleWithXitcs =
   "abcdefghjk!$%&+?mnpqrstuvwxyz23456789!$%&+?ABCDEFGHJKMNPQRSTUVWXYZ!$%&+?";
@@ -11,7 +12,7 @@ const sampleWithXitcs =
 const sampleWithoutXitcs =
   "abcdefghjkmnpqrstuvwxyz23456789ABCDEFGHJKMNPQRSTUVWXYZ";
 
-// converst strings to array
+// convert strings to array
 const sampleWithXitcsList = Array.from(sampleWithXitcs);
 
 const sampleWithoutXitcsList = Array.from(sampleWithoutXitcs);
@@ -21,18 +22,23 @@ const randomNumberGenerator = (length) => {
   return Math.floor(Math.random() * length);
 };
 
-// password generator logic-----
+// password generator logic==========================================
 let passwordArray = [];
-// let passwordString = "";
 const generatePassword = (sampleArrayType) => {
-  let lengthOfArray = sampleArrayType.length;
-  let randomNumber = randomNumberGenerator(lengthOfArray);
-  let item = sampleArrayType[randomNumber];
+  const lengthOfArray = sampleArrayType.length;
+  const randomNumber = randomNumberGenerator(lengthOfArray);
+  const item = sampleArrayType[randomNumber];
   return passwordArray.push(item);
 };
 
-// generate template--------------------
+// generate template ================================================
 const generateTemplate = (password) => {
+  // https://stackoverflow.com/a/24655395
+  // enable tooltip on dynamic html elements ----
+  $("body").tooltip({
+    selector: ".tt",
+  });
+
   const html = `<li class="list-group-item">
 
   <span class="textToCopy">${password}</span
@@ -52,7 +58,7 @@ const generateTemplate = (password) => {
   return itemList.prepend(html);
 };
 
-// event listener on submit------------------------
+// event listener on submit ========================================
 form.on("submit", function (e) {
   e.preventDefault();
 
@@ -68,19 +74,11 @@ form.on("submit", function (e) {
   // console.log(passwordLength, typeof passwordLength);
 
   try {
-    if (
-      pathChecked == "special-characters" &&
-      passwordLength.length !== 0 &&
-      passwordLength > 0
-    ) {
+    if (pathChecked == "special-characters" && passwordLength > 0) {
       for (let i = 0; i < passwordLength; i++) {
         generatePassword(sampleWithXitcsList);
       }
-    } else if (
-      pathChecked == "no-special-characters" &&
-      passwordLength.length !== 0 &&
-      passwordLength > 0
-    ) {
+    } else if (pathChecked == "no-special-characters" && passwordLength > 0) {
       for (let i = 0; i < passwordLength; i++) {
         generatePassword(sampleWithoutXitcsList);
       }
@@ -89,39 +87,34 @@ form.on("submit", function (e) {
       passwordArray = Array.from(passwordMsg);
     }
   } catch (err) {
+    console.log(err);
     passwordMsg = "Make a request by passing the right password length";
     passwordArray = Array.from(passwordMsg);
   }
   const passwordString = passwordArray.join("");
   // console.log(passwordString);
 
-  // https://stackoverflow.com/a/24655395
-  // enable tooltip on dynamic html elements (dynamic html elements)----
-  $("body").tooltip({
-    selector: ".tt",
-  });
-
   generateTemplate(passwordString);
   passwordArray = [];
 });
 
-// flter passwords ----------------------------------------
+// flter passwords ======================================================
 $("#filter").on("keyup", function (e) {
-  var value = $(this).val().toLowerCase();
+  const value = $(this).val().toLowerCase();
   $("#items li").filter(function (item) {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
   });
 });
 
-// copy functionality
+// copy functionality =================================================
 // enable tool tip
-// tooltip for normal html (static html)----------------------
+// tooltip for normal html (static html)
 const tooltips = document.querySelectorAll(".tt");
 tooltips.forEach((t) => {
   new bootstrap.Tooltip(t);
 });
 
-// disable and enable  tool tip
+// disable and enable  tool tip===========================================
 // applied jquery event delegation
 // that helped alot
 $("#items").on("click", ".tt", function () {
@@ -135,29 +128,25 @@ $("#items").on("click", ".tt", function () {
     .tooltip("_fixTitle");
 });
 
-// copy to clipboard------------------------------------------------
-
-// https://codepen.io/bharatramnani94/post/copy-text-to-clipboard-using-vanilla-javascript
-// helped with clipboard script
-
-// applied javascript event delegation-------------------------------------
+// copy to clipboard ======================================================
+// applied javascript event delegation
 // that helped alot
 
-// event listener
-document.querySelector("#items").addEventListener("click", copyToClipboard);
+// event listener====
+const itemListSelectWithJS = document.querySelector("#items");
+itemListSelectWithJS.addEventListener("click", copyToClipboard);
 
 //  call back function -----------
 function copyToClipboard(e) {
   if (e.target.classList.contains("fas")) {
     // var textToCopy = this.firstElementChild.innerText;
 
-    var textToCopy =
+    const textToCopy =
       e.target.parentElement.parentElement.parentElement.firstElementChild
         .innerText;
-    console.log(textToCopy);
-    console.log(e.target);
-
-    var myTemporaryInputElement = document.createElement("input");
+    // console.log(textToCopy);
+    // console.log(e.target);
+    const myTemporaryInputElement = document.createElement("input");
     myTemporaryInputElement.type = "text";
     myTemporaryInputElement.value = textToCopy;
     document.body.appendChild(myTemporaryInputElement);
