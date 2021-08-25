@@ -90,6 +90,10 @@ form.on("submit", function (e) {
   const passwordString = passwordArray.join("");
   console.log(passwordString);
 
+  $("body").tooltip({
+    selector: ".tt",
+  });
+
   generateTemplate(passwordString);
   passwordArray = [];
 });
