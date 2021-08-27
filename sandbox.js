@@ -17,7 +17,7 @@ const sampleWithXitcsList = Array.from(sampleWithXitcs);
 
 const sampleWithoutXitcsList = Array.from(sampleWithoutXitcs);
 
-// random number generator----
+// random number generator===========================================
 const randomNumberGenerator = (length) => {
   return Math.floor(Math.random() * length);
 };
@@ -132,7 +132,7 @@ $("#items").on("click", ".tt", function () {
 // applied javascript event delegation
 // that helped alot
 
-// event listener====
+// event listener-----------------
 const itemListSelectWithJS = document.querySelector("#items");
 itemListSelectWithJS.addEventListener("click", copyToClipboard);
 
