@@ -1,29 +1,27 @@
-// ========================================================
+// ---
 const form = $("#addForm");
 const item = $(".item");
 const itemList = $("#items");
 const lis = $(".list-group-item");
 
-// logic =================================================
-// strings from which password will be generated
+//  ---
 const sampleWithXitcs =
   "abcdefghjk!$%&+?mnpqrstuvwxyz23456789!$%&+?ABCDEFGHJKMNPQRSTUVWXYZ!$%&+?";
 
 const sampleWithoutXitcs =
   "abcdefghjkmnpqrstuvwxyz23456789ABCDEFGHJKMNPQRSTUVWXYZ";
 
-// convert strings to array
+// ---
 const sampleWithXitcsList = Array.from(sampleWithXitcs);
-// console.log(sampleWithXitcsList);
-const sampleWithoutXitcsList = Array.from(sampleWithoutXitcs);
-// console.log(sampleWithoutXitcsList);
 
-// random number generator===========================================
+const sampleWithoutXitcsList = Array.from(sampleWithoutXitcs);
+
+// ---
 const randomNumberGenerator = (length) => {
   return Math.floor(Math.random() * length);
 };
 
-// password generator logic==========================================
+// password generator logic---
 let passwordArray = [];
 const generatePassword = (sampleArrayType) => {
   const lengthOfArray = sampleArrayType.length;
@@ -32,7 +30,7 @@ const generatePassword = (sampleArrayType) => {
   return passwordArray.push(item);
 };
 
-// generate template ================================================
+// generate template ---
 const generateTemplate = (password) => {
   const html = `<li class="list-group-item">
 
@@ -53,7 +51,7 @@ const generateTemplate = (password) => {
   return itemList.prepend(html);
 };
 
-// ==============================================================================
+// ---
 const generatedPassword = (pathChecked, passwordLength, typeOfSample) => {
   try {
     if (pathChecked && passwordLength > 0) {
@@ -73,11 +71,10 @@ const generatedPassword = (pathChecked, passwordLength, typeOfSample) => {
   }
 };
 
-// event listener on submit ========================================
+// ---
 form.on("submit", function (e) {
   e.preventDefault();
 
-  // ----
   // https://stackoverflow.com/a/24655395
   // enable tooltip on dynamic html elements
   $("body").tooltip({
@@ -85,7 +82,7 @@ form.on("submit", function (e) {
   });
 
   let passwordLength = item.val();
-  passwordLength = passwordLength ? passwordLength : 8;
+  passwordLength = passwordLength ? passwordLength : 10;
 
   const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
 
@@ -108,7 +105,7 @@ form.on("submit", function (e) {
   localStorage.setItem("typeOfSample", JSON.stringify(typeOfSample));
 });
 
-// // ----
+// local storage ----
 let passwordLength = localStorage.getItem("passwordLength");
 let pathChecked = localStorage.getItem("pathChecked");
 let typeOfSample = localStorage.getItem("typeOfSample");
@@ -120,7 +117,7 @@ if (passwordLength) {
   passwordArray = [];
 }
 
-// flter passwords ======================================================
+//  ---
 $("#filter").on("keyup", function (e) {
   const value = $(this).val().toLowerCase();
   $("#items li").filter(function (item) {
@@ -128,17 +125,13 @@ $("#filter").on("keyup", function (e) {
   });
 });
 
-// copy functionality =================================================
-// enable tool tip
-// tooltip for normal html (static html)
+// ---
 const tooltips = document.querySelectorAll(".tt");
 tooltips.forEach((t) => {
   new bootstrap.Tooltip(t);
 });
 
-// disable and enable  tool tip===========================================
-// applied jquery event delegation
-// that helped alot
+// ---
 $("#items").on("click", ".tt", function () {
   // https://stackoverflow.com/a/50150393/15235273
   // this helped with changing tooltip text to copied
@@ -150,24 +143,15 @@ $("#items").on("click", ".tt", function () {
     .tooltip("_fixTitle");
 });
 
-// copy to clipboard ======================================================
-// applied javascript event delegation
-// that helped alot
-
-// event listener-----------------
+// ---
 const itemListSelectWithJS = document.querySelector("#items");
 itemListSelectWithJS.addEventListener("click", copyToClipboard);
 
-//  call back function -----------
 function copyToClipboard(e) {
   if (e.target.classList.contains("fas")) {
-    // var textToCopy = this.firstElementChild.innerText;
-
     const textToCopy =
       e.target.parentElement.parentElement.parentElement.firstElementChild
         .innerText;
-    // console.log(textToCopy);
-    // console.log(e.target);
     const myTemporaryInputElement = document.createElement("input");
     myTemporaryInputElement.type = "text";
     myTemporaryInputElement.value = textToCopy;
@@ -178,8 +162,7 @@ function copyToClipboard(e) {
   }
 }
 
-// passord generator button animation------------
-// https://stackoverflow.com/a/51810568
+// ---
 $(".btn").on("click", function () {
   setTimeout(function () {
     $(".btn").addClass("shadow-none");
