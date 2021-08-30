@@ -14,8 +14,9 @@ const sampleWithoutXitcs =
 
 // convert strings to array
 const sampleWithXitcsList = Array.from(sampleWithXitcs);
-
+// console.log(sampleWithXitcsList);
 const sampleWithoutXitcsList = Array.from(sampleWithoutXitcs);
+// console.log(sampleWithoutXitcsList);
 
 // random number generator===========================================
 const randomNumberGenerator = (length) => {
@@ -33,12 +34,6 @@ const generatePassword = (sampleArrayType) => {
 
 // generate template ================================================
 const generateTemplate = (password) => {
-  // https://stackoverflow.com/a/24655395
-  // enable tooltip on dynamic html elements ----
-  $("body").tooltip({
-    selector: ".tt",
-  });
-
   const html = `<li class="list-group-item">
 
   <span class="textToCopy">${password}</span
@@ -58,45 +53,72 @@ const generateTemplate = (password) => {
   return itemList.prepend(html);
 };
 
-// event listener on submit ========================================
-form.on("submit", function (e) {
-  e.preventDefault();
-
-  // browser handles scroll top----
-  scrollTo(0, 0);
-
-  //   https://stackoverflow.com/a/23053203
-  // how to grab the value of a checked radio button
-  // const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
-
-  const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
-  const passwordLength = item.val();
-  // console.log(passwordLength, typeof passwordLength);
-
+// ==============================================================================
+const generatedPassword = (pathChecked, passwordLength, typeOfSample) => {
   try {
-    if (pathChecked == "special-characters" && passwordLength > 0) {
-      for (let i = 0; i < passwordLength; i++) {
-        generatePassword(sampleWithXitcsList);
-      }
-    } else if (pathChecked == "no-special-characters" && passwordLength > 0) {
-      for (let i = 0; i < passwordLength; i++) {
-        generatePassword(sampleWithoutXitcsList);
+    if (pathChecked && passwordLength > 0) {
+      for (let i = 0; i < `${passwordLength}`; i++) {
+        generatePassword(typeOfSample);
       }
     } else {
       passwordMsg = "Make a request by passing the right password length";
       passwordArray = Array.from(passwordMsg);
+      return passwordArray;
     }
   } catch (err) {
     console.log(err);
     passwordMsg = "Make a request by passing the right password length";
     passwordArray = Array.from(passwordMsg);
+    return passwordArray;
   }
-  const passwordString = passwordArray.join("");
-  // console.log(passwordString);
+};
 
+// event listener on submit ========================================
+form.on("submit", function (e) {
+  e.preventDefault();
+
+  // ----
+  // https://stackoverflow.com/a/24655395
+  // enable tooltip on dynamic html elements
+  $("body").tooltip({
+    selector: ".tt",
+  });
+
+  let passwordLength = item.val();
+  passwordLength = passwordLength ? passwordLength : 8;
+
+  const pathChecked = $('input[name="inlineRadioOptions"]:checked').val();
+
+  if (pathChecked === "special-characters") {
+    typeOfSample = sampleWithXitcsList;
+  } else if (pathChecked === "no-special-characters") {
+    typeOfSample = sampleWithoutXitcsList;
+  }
+  console.log(typeOfSample);
+
+  // ---
+  generatedPassword(pathChecked, passwordLength, typeOfSample);
+  const passwordString = passwordArray.join("");
   generateTemplate(passwordString);
   passwordArray = [];
+
+  // ---
+  localStorage.setItem("passwordLength", passwordLength);
+  localStorage.setItem("pathChecked", pathChecked);
+  localStorage.setItem("typeOfSample", JSON.stringify(typeOfSample));
 });
+
+// // ----
+let passwordLength = localStorage.getItem("passwordLength");
+let pathChecked = localStorage.getItem("pathChecked");
+let typeOfSample = localStorage.getItem("typeOfSample");
+typeOfSample = JSON.parse(typeOfSample);
+if (passwordLength) {
+  generatedPassword(pathChecked, passwordLength, typeOfSample);
+  const passwordString = passwordArray.join("");
+  generateTemplate(passwordString);
+  passwordArray = [];
+}
 
 // flter passwords ======================================================
 $("#filter").on("keyup", function (e) {
