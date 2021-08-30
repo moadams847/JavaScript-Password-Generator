@@ -91,7 +91,6 @@ form.on("submit", function (e) {
   } else if (pathChecked === "no-special-characters") {
     typeOfSample = sampleWithoutXitcsList;
   }
-  console.log(typeOfSample);
 
   // ---
   generatedPassword(pathChecked, passwordLength, typeOfSample);
