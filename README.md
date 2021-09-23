@@ -1,4 +1,4 @@
-# Password Generator App
+# JavaScript Based Password Generator App
 
 ## Motivation
 
