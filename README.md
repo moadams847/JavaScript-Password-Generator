@@ -7,7 +7,7 @@ which receives JSON data from a flask-based API. This project, however, does not
 
 ## Screenshot
 
-[![Password Generator App](img/pgn.PNG "Password Generator App")]()
+[![Password Generator App](img/pgg.PNG "Password Generator App")]()
 
 ## URL
 
