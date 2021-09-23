@@ -25,6 +25,7 @@ Clone Repo
 4. SASS
 5. Netlify
 6. JavaScript/jQuery
+7. Local Storage
 
 ## Contributing
 
